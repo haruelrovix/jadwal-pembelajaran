@@ -1,5 +1,5 @@
 {
-  "teacher": [
+  "teachers": [
     {
       "id": "F73B4F549E6E3B19",
       "firstName": "Wibowo, M. Pd",
@@ -898,6 +898,134 @@
       "color": "#FF6666",
       "email": "",
       "mobile": "",
+      "partnerId": ""
+    }
+  ],
+  "subjects": [
+    {
+      "id": "4E2F33151606D4CF",
+      "name": "Bhs Indonesia",
+      "short": "Ind",
+      "partnerId": ""
+    },
+    {
+      "id": "2D2E45B95927F58B",
+      "name": "Bhs Inggris",
+      "short": "Ing",
+      "partnerId": ""
+    },
+    {
+      "id": "6C09535674D94EFB",
+      "name": "Pendidikan Pancasila",
+      "short": "Pend.Pancasila",
+      "partnerId": ""
+    },
+    {
+      "id": "6BE1B7401F4E7354",
+      "name": "Pend Agama & Budi Pekerti",
+      "short": "PA&BP",
+      "partnerId": ""
+    },
+    {
+      "id": "9D69F8824C453676",
+      "name": "Kimia",
+      "short": "Kim",
+      "partnerId": ""
+    },
+    {
+      "id": "88D9CC61FB3A1BBD",
+      "name": "Fisika",
+      "short": "Fis",
+      "partnerId": ""
+    },
+    {
+      "id": "C3CA7A421FCF2E00",
+      "name": "Biologi",
+      "short": "Bio",
+      "partnerId": ""
+    },
+    {
+      "id": "7DB0CD7701D61100",
+      "name": "Sejarah ",
+      "short": "Sej ",
+      "partnerId": ""
+    },
+    {
+      "id": "FC59B57AC00D26AB",
+      "name": "Penjaskes",
+      "short": "Pjs",
+      "partnerId": ""
+    },
+    {
+      "id": "C7BFC844A625B4A4",
+      "name": "Prakarya dan Kewirausahaan",
+      "short": "PKWu",
+      "partnerId": ""
+    },
+    {
+      "id": "5E399DAB0D293BB2",
+      "name": "Bhs Jawa",
+      "short": "Jw",
+      "partnerId": ""
+    },
+    {
+      "id": "04A8A6049CC5DCC2",
+      "name": "Ekonomi",
+      "short": "Eko",
+      "partnerId": ""
+    },
+    {
+      "id": "EB4AE2E745E4DD89",
+      "name": "Bimbingan Konseling",
+      "short": "BK",
+      "partnerId": ""
+    },
+    {
+      "id": "AE243E340C8E62BE",
+      "name": "Seni Musik",
+      "short": "SM",
+      "partnerId": ""
+    },
+    {
+      "id": "F23EDD267AD4E98F",
+      "name": "Sosiologi",
+      "short": "Sos",
+      "partnerId": ""
+    },
+    {
+      "id": "D430C7C76F242F65",
+      "name": "Geografi",
+      "short": "Geo",
+      "partnerId": ""
+    },
+    {
+      "id": "BAD40BE3EC3A44E5",
+      "name": "Matematika",
+      "short": "Mat",
+      "partnerId": ""
+    },
+    {
+      "id": "8E348EE4D0FE1E4B",
+      "name": "Seni Tari",
+      "short": "ST",
+      "partnerId": ""
+    },
+    {
+      "id": "72AD1BCC3F3DBA3C",
+      "name": "Informatika",
+      "short": "INF",
+      "partnerId": ""
+    },
+    {
+      "id": "70A1D239B087D654",
+      "name": "Bahasa Inggris Tingkat Lanjut",
+      "short": "B.Ing.T.L",
+      "partnerId": ""
+    },
+    {
+      "id": "EE046F652FD2D22A",
+      "name": "Matematika Tingkat Lanjut",
+      "short": "Mat. T.L",
       "partnerId": ""
     }
   ]

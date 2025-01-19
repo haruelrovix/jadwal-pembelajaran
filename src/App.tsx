@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Users, Search } from 'lucide-react';
-import { Teacher, ApiResponse } from './types';
+import { Users, Search, BookOpen, FileSpreadsheet } from 'lucide-react';
+import { Teacher, Course, ApiResponse } from './types';
 import TeacherTable from './components/TeacherTable';
+import CourseTable from './components/CourseTable';
+
+type Tab = 'teachers' | 'courses';
 
 function App() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [courses, setCourses] = useState<Course[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState<Tab>('teachers');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,7 +22,8 @@ function App() {
           throw new Error('Failed to fetch data');
         }
         const data: ApiResponse = await response.json();
-        setTeachers(data.teacher);
+        setTeachers(data.teachers);
+        setCourses((data.subjects || []).sort((a, b) => a.short.localeCompare(b.short)));
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
@@ -53,7 +59,7 @@ function App() {
         <div className="bg-white shadow-sm rounded-lg mb-6 p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center">
-              <Users className="h-8 w-8 text-blue-500 mr-3" />
+              <FileSpreadsheet className="h-8 w-8 text-blue-500 mr-3" />
               <h1 className="text-2xl font-bold text-gray-900">Learning Schedule</h1>
             </div>
             <div className="relative">
@@ -62,17 +68,49 @@ function App() {
               </div>
               <input
                 type="text"
-                placeholder="Search teachers..."
+                placeholder="Search..."
                 className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
           </div>
+
+          {/* Tabs */}
+          <div className="mt-6 border-b border-gray-200">
+            <nav className="-mb-px flex space-x-8">
+              <button
+                onClick={() => setActiveTab('teachers')}
+                className={`${
+                  activeTab === 'teachers'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+              >
+                <Users className="h-5 w-5 mr-2" />
+                Teachers
+              </button>
+              <button
+                onClick={() => setActiveTab('courses')}
+                className={`${
+                  activeTab === 'courses'
+                    ? 'border-blue-500 text-blue-600'
+                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+              >
+                <BookOpen className="h-5 w-5 mr-2" />
+                Courses
+              </button>
+            </nav>
+          </div>
         </div>
 
-        {/* Teacher Table */}
-        <TeacherTable teachers={teachers} searchQuery={searchQuery} />
+        {/* Content */}
+        {activeTab === 'teachers' ? (
+          <TeacherTable teachers={teachers} searchQuery={searchQuery} />
+        ) : (
+          <CourseTable courses={courses} searchQuery={searchQuery} />
+        )}
       </div>
     </div>
   );

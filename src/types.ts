@@ -1,16 +1,24 @@
 export interface Teacher {
-  Id: string;
+  id: string;
   firstName: string;
   lastName: string;
   name: string;
   short: string;
   gender: 'M' | 'F';
   color: string;
-  email: string;
-  mobile: string;
-  partnerId: string;
+  email?: string;
+  mobile?: string;
+  partnerId?: string;
+}
+
+export interface Course {
+  id: string;
+  short: string;
+  name: string;
+  partnerId?: string;
 }
 
 export interface ApiResponse {
-  teacher: Teacher[];
+  teachers: Teacher[];
+  subjects: Course[];
 }

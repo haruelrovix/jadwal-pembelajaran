@@ -1,24 +1,24 @@
+import React, { useState } from 'react';
+import { Course } from '../types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Teacher } from '../types';
-import { useState } from 'react';
 
-interface TeacherTableProps {
-  teachers: Teacher[];
+interface CourseTableProps {
+  courses: Course[];
   searchQuery: string;
 }
 
-export default function TeacherTable({ teachers, searchQuery }: Readonly<TeacherTableProps>) {
+export default function CourseTable({ courses, searchQuery }: Readonly<CourseTableProps>) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const filteredTeachers = teachers.filter(teacher =>
-    teacher.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredCourses = courses.filter(course =>
+    course.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const totalPages = Math.ceil(filteredTeachers.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredCourses.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, filteredTeachers.length);
-  const currentTeachers = filteredTeachers.slice(startIndex, endIndex);
+  const endIndex = Math.min(startIndex + itemsPerPage, filteredCourses.length);
+  const currentCourses = filteredCourses.slice(startIndex, endIndex);
 
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
@@ -31,7 +31,7 @@ export default function TeacherTable({ teachers, searchQuery }: Readonly<Teacher
   const handleItemsPerPageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const newItemsPerPage = parseInt(e.target.value, 10);
     setItemsPerPage(newItemsPerPage);
-    setCurrentPage(1); // Reset to first page when changing items per page
+    setCurrentPage(1);
   };
 
   const handlePageClick = (page: number) => {
@@ -82,10 +82,11 @@ export default function TeacherTable({ teachers, searchQuery }: Readonly<Teacher
         <button
           key={i}
           onClick={() => handlePageClick(i)}
-          className={`px-3 py-1 text-sm font-medium rounded-md ${currentPage === i
+          className={`px-3 py-1 text-sm font-medium rounded-md ${
+            currentPage === i
               ? 'bg-blue-500 text-white'
               : 'text-gray-700 hover:bg-gray-50 border border-gray-300'
-            }`}
+          }`}
         >
           {i}
         </button>
@@ -116,7 +117,6 @@ export default function TeacherTable({ teachers, searchQuery }: Readonly<Teacher
 
   return (
     <div className="bg-white rounded-lg shadow-lg">
-      {/* Entries per page selector */}
       <div className="px-6 py-4 flex items-center space-x-2">
         <span className="text-sm text-gray-700">Show</span>
         <select
@@ -138,36 +138,21 @@ export default function TeacherTable({ teachers, searchQuery }: Readonly<Teacher
           <thead className="bg-gray-50">
             <tr>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                ID
+                Code
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Name
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Gender
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Color
-              </th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {currentTeachers.map((teacher) => (
-              <tr key={teacher.id} className="hover:bg-gray-50">
+            {currentCourses.map((course) => (
+              <tr key={course.short} className="hover:bg-gray-50">
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {teacher.short}
+                  {course.short}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {teacher.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {teacher.gender === 'M' ? 'Male' : 'Female'}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  <div
-                    className="w-6 h-6 rounded"
-                    style={{ backgroundColor: teacher.color }}
-                  />
+                  {course.name}
                 </td>
               </tr>
             ))}
@@ -175,26 +160,26 @@ export default function TeacherTable({ teachers, searchQuery }: Readonly<Teacher
         </table>
       </div>
 
-      {/* Pagination Info and Controls */}
       <div className="px-6 py-4 flex items-center justify-between border-t border-gray-200">
         <div className="text-sm text-gray-700">
-          Showing {startIndex + 1} to {endIndex} of {filteredTeachers.length} entries
+          Showing {startIndex + 1} to {endIndex} of {filteredCourses.length} entries
         </div>
         <div className="flex items-center space-x-2">
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 1}
-            className={`px-3 py-1 rounded-md text-sm font-medium ${currentPage === 1
+            className={`px-3 py-1 rounded-md text-sm font-medium ${
+              currentPage === 1
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
-              }`}
+            }`}
           >
             <div className="flex items-center">
               <ChevronLeft className="h-4 w-4" />
               <span>Previous</span>
             </div>
           </button>
-
+          
           <div className="flex items-center space-x-1">
             {renderPageNumbers()}
           </div>
@@ -202,10 +187,11 @@ export default function TeacherTable({ teachers, searchQuery }: Readonly<Teacher
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className={`px-3 py-1 rounded-md text-sm font-medium ${currentPage === totalPages
+            className={`px-3 py-1 rounded-md text-sm font-medium ${
+              currentPage === totalPages
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
-              }`}
+            }`}
           >
             <div className="flex items-center">
               <span>Next</span>
