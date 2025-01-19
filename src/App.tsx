@@ -84,33 +84,30 @@ function App() {
             <nav className="-mb-px flex space-x-8">
               <button
                 onClick={() => setActiveTab('teachers')}
-                className={`${
-                  activeTab === 'teachers'
+                className={`${activeTab === 'teachers'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+                  } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center`}
               >
                 <Users className="h-5 w-5 mr-2" />
                 Teachers
               </button>
               <button
                 onClick={() => setActiveTab('courses')}
-                className={`${
-                  activeTab === 'courses'
+                className={`${activeTab === 'courses'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+                  } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center`}
               >
                 <BookOpen className="h-5 w-5 mr-2" />
                 Courses
               </button>
               <button
                 onClick={() => setActiveTab('classrooms')}
-                className={`${
-                  activeTab === 'classrooms'
+                className={`${activeTab === 'classrooms'
                     ? 'border-blue-500 text-blue-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-                } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+                  } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center`}
               >
                 <School className="h-5 w-5 mr-2" />
                 Classrooms
@@ -120,16 +117,29 @@ function App() {
         </div>
 
         {/* Content */}
-        {activeTab === 'teachers' ? (
-          <TeacherTable teachers={teachers} searchQuery={searchQuery} />
-        ) : activeTab === 'courses' ? (
-          <CourseTable courses={courses} searchQuery={searchQuery} />
-        ) : (
-          <ClassroomTable classrooms={classrooms} searchQuery={searchQuery} />
-        )}
+        {getActiveTabContent(activeTab, teachers, courses, classrooms, searchQuery)}
       </div>
     </div>
   );
+}
+
+function getActiveTabContent(
+  activeTab: Tab,
+  teachers: Teacher[],
+  courses: Course[],
+  classrooms: ClassRoom[],
+  searchQuery: string
+) {
+  switch (activeTab) {
+    case 'teachers':
+      return <TeacherTable teachers={teachers} searchQuery={searchQuery} />;
+    case 'courses':
+      return <CourseTable courses={courses} searchQuery={searchQuery} />;
+    case 'classrooms':
+      return <ClassroomTable classrooms={classrooms} searchQuery={searchQuery} />;
+    default:
+      return null;
+  }
 }
 
 export default App;
