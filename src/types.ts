@@ -18,7 +18,17 @@ export interface Course {
   partnerId?: string;
 }
 
+export interface ClassRoom {
+  id: string;
+  name: string;
+  short: string;
+  capacity: string;
+  buildingId: string;
+  partnerId?: string;
+}
+
 export interface ApiResponse {
   teachers: Teacher[];
   subjects: Course[];
+  classRooms: ClassRoom[];
 }

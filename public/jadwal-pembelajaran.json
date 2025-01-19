@@ -1028,5 +1028,319 @@
       "short": "Mat. T.L",
       "partnerId": ""
     }
+  ],
+  "classRooms": [
+    {
+      "id": "85AE3E788ACBAC5A",
+      "name": "Kelas X-01",
+      "short": "X-01",
+      "capacity": "*",
+      "buildingId": "B8D69E20E80CA31A",
+      "partnerId": ""
+    },
+    {
+      "id": "8EF8D4DC9BB7E870",
+      "name": "Kelas X-02",
+      "short": "X-02",
+      "capacity": "*",
+      "buildingId": "B8D69E20E80CA31A",
+      "partnerId": ""
+    },
+    {
+      "id": "71A2C3DD0B0709D5",
+      "name": "kelas X-03",
+      "short": "X-03",
+      "capacity": "*",
+      "buildingId": "B8D69E20E80CA31A",
+      "partnerId": ""
+    },
+    {
+      "id": "167D2DEFBF005BCF",
+      "name": "kelas X-04",
+      "short": "X-04",
+      "capacity": "*",
+      "buildingId": "B8D69E20E80CA31A",
+      "partnerId": ""
+    },
+    {
+      "id": "D0914EC8D202F510",
+      "name": "kelas X-05",
+      "short": "X-05",
+      "capacity": "*",
+      "buildingId": "B8D69E20E80CA31A",
+      "partnerId": ""
+    },
+    {
+      "id": "89465D41D0FEEB9F",
+      "name": "kelas X-06",
+      "short": "X-06",
+      "capacity": "*",
+      "buildingId": "B8D69E20E80CA31A",
+      "partnerId": ""
+    },
+    {
+      "id": "C336801D69B31EFE",
+      "name": "kelas X-07",
+      "short": "X-07",
+      "capacity": "*",
+      "buildingId": "B8D69E20E80CA31A",
+      "partnerId": ""
+    },
+    {
+      "id": "6E7FA652B4737347",
+      "name": "kelas X-08",
+      "short": "X-08",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "EA89F690AD3CFE47",
+      "name": "kelas X-09",
+      "short": "X-09",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "EB5EDBA53363D16F",
+      "name": "kelas X-10",
+      "short": "X-10",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "E069643596570494",
+      "name": "kelas X-11",
+      "short": "X-11",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "393533ED785F7D09",
+      "name": "kelas X-12",
+      "short": "X-12",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "2192A59BBB253475",
+      "name": "kelas XI-01",
+      "short": "XI-01",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "4FD9D1F533F89DA5",
+      "name": "kelas XI-02",
+      "short": "XI-02",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "D64C28B79F5851F8",
+      "name": "kelas XI-03",
+      "short": "XI-03",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "EE5318026D343DCA",
+      "name": "kelas XI-04",
+      "short": "XI-04",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "0B27F2AB38C220BC",
+      "name": "kelas XI-05",
+      "short": "XI-05",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "C4102A70AFFE22CD",
+      "name": "kelas XI-06",
+      "short": "XI-06",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "574490FEF7C826AD",
+      "name": "kelas XI-07",
+      "short": "XI-07",
+      "capacity": "*",
+      "buildingId": "46F71C3F8E69BC8D",
+      "partnerId": ""
+    },
+    {
+      "id": "2C429D3CED0028CA",
+      "name": "kelas XI-08",
+      "short": "XI-08",
+      "capacity": "*",
+      "buildingId": "F7A55C6832BECFBB",
+      "partnerId": ""
+    },
+    {
+      "id": "6BC48C3027B6B359",
+      "name": "kelas XI-09",
+      "short": "XI-09",
+      "capacity": "*",
+      "buildingId": "F7A55C6832BECFBB",
+      "partnerId": ""
+    },
+    {
+      "id": "DFBBE53F714E1826",
+      "name": "kelas XI-10",
+      "short": "XI-10",
+      "capacity": "*",
+      "buildingId": "F7A55C6832BECFBB",
+      "partnerId": ""
+    },
+    {
+      "id": "38CA68D283AAAB79",
+      "name": "kelas XI-11",
+      "short": "XI-11",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "732022BEBCDEC4F5",
+      "name": "kelas XI-12",
+      "short": "XI-12",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "E5105D0546783D86",
+      "name": "kelas XII-01",
+      "short": "XII-01",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "8C1C97F14DAF6A98",
+      "name": "kelas XII-02",
+      "short": "XII-02",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "6C9D7A747A42E698",
+      "name": "kelas XII-03",
+      "short": "XII-03",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "91F48C9E1A923FC8",
+      "name": "kelas XII-04",
+      "short": "XII-04",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "DE9E48526EEB9BAE",
+      "name": "kelas XII-05",
+      "short": "XII-05",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "196524723F047C17",
+      "name": "kelas XII-06",
+      "short": "XII-06",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "9687A44F6892ACF4",
+      "name": "kelas XII-07",
+      "short": "XII-07",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "C71EC777B9C78EEE",
+      "name": "kelas XII-08",
+      "short": "XII-08",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "1EDAD8CD361A2281",
+      "name": "kelas XII-09",
+      "short": "XII-09",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "4AC8D9AE50290007",
+      "name": "kelas XII-10",
+      "short": "XII-10",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "317E1C07588DA1FA",
+      "name": "kelas XII-11",
+      "short": "XII-11",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "6E051CA6A8DB95E5",
+      "name": "kelas XII-12",
+      "short": "XII-12",
+      "capacity": "*",
+      "buildingId": "26F1B21CE78DFB43",
+      "partnerId": ""
+    },
+    {
+      "id": "679D7EA634FCD2F3",
+      "name": "Lab-Comp A",
+      "short": "LC-A",
+      "capacity": "*",
+      "buildingId": "*",
+      "partnerId": ""
+    },
+    {
+      "id": "856E0AC4D7D04D00",
+      "name": "Lab-Comp B",
+      "short": "LC-B",
+      "capacity": "*",
+      "buildingId": "*",
+      "partnerId": ""
+    },
+    {
+      "id": "D5747089F7F2237E",
+      "name": "Lab-Comp C",
+      "short": "LC-C",
+      "capacity": "*",
+      "buildingId": "*",
+      "partnerId": ""
+    }
   ]
 }
