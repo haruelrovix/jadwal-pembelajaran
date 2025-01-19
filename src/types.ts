@@ -27,8 +27,26 @@ export interface ClassRoom {
   partnerId?: string;
 }
 
+export interface Schedule {
+  id: string;
+  classIds: string;
+  subjectId: string;
+  periodsPerCard: string;
+  periodsPerWeek: string;
+  teacherIds: string;
+  classRoomIds: string;
+  groupIds: string;
+  capacity: string;
+  seminarGroup: string;
+  termsDefId: string;
+  weeksDefId: string;
+  daysDefId: string;
+  partnerId: string;
+}
+
 export interface ApiResponse {
   teachers: Teacher[];
   subjects: Course[];
   classRooms: ClassRoom[];
+  schedules?: Schedule[];
 }

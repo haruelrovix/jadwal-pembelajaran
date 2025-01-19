@@ -1,24 +1,28 @@
 import React, { useState } from 'react';
-import { ClassRoom } from '../types';
+import { Schedule } from '../types';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
-interface ClassroomTableProps {
-  classrooms: ClassRoom[];
+interface ScheduleTableProps {
+  schedules: Schedule[];
   searchQuery: string;
 }
 
-export default function ClassroomTable({ classrooms, searchQuery }: Readonly<ClassroomTableProps>) {
+export default function ScheduleTable({ schedules, searchQuery }: Readonly<ScheduleTableProps>) {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const filteredClassrooms = classrooms.filter(classroom =>
-    classroom.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // Filter schedules based on search query (searching through multiple fields)
+  const filteredSchedules = schedules.filter(schedule =>
+    schedule.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    schedule.classIds.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    schedule.subjectId.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    schedule.teacherIds.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const totalPages = Math.ceil(filteredClassrooms.length / itemsPerPage);
+  const totalPages = Math.ceil(filteredSchedules.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
-  const endIndex = Math.min(startIndex + itemsPerPage, filteredClassrooms.length);
-  const currentClassrooms = filteredClassrooms.slice(startIndex, endIndex);
+  const endIndex = Math.min(startIndex + itemsPerPage, filteredSchedules.length);
+  const currentSchedules = filteredSchedules.slice(startIndex, endIndex);
 
   const handlePreviousPage = () => {
     setCurrentPage((prev) => Math.max(prev - 1, 1));
@@ -82,11 +86,10 @@ export default function ClassroomTable({ classrooms, searchQuery }: Readonly<Cla
         <button
           key={i}
           onClick={() => handlePageClick(i)}
-          className={`px-3 py-1 text-sm font-medium rounded-md ${
-            currentPage === i
-              ? 'bg-blue-500 text-white'
-              : 'text-gray-700 hover:bg-gray-50 border border-gray-300'
-          }`}
+          className={`px-3 py-1 text-sm font-medium rounded-md ${currentPage === i
+            ? 'bg-blue-500 text-white'
+            : 'text-gray-700 hover:bg-gray-50 border border-gray-300'
+            }`}
         >
           {i}
         </button>
@@ -116,7 +119,7 @@ export default function ClassroomTable({ classrooms, searchQuery }: Readonly<Cla
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg">
+    <div className="bg-white shadow-sm rounded-lg overflow-hidden">
       <div className="px-6 py-4 flex items-center space-x-2">
         <span className="text-sm text-gray-700">Show</span>
         <select
@@ -137,55 +140,49 @@ export default function ClassroomTable({ classrooms, searchQuery }: Readonly<Cla
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Code
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Name
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                Capacity
-              </th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Class IDs</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject ID</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teacher IDs</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Periods Per Card</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Periods Per Week</th>
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {currentClassrooms.map((classroom) => (
-              <tr key={classroom.id} className="hover:bg-gray-50">
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                  {classroom.short}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {classroom.name}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {classroom.capacity}
-                </td>
+            {currentSchedules.map((schedule) => (
+              <tr key={schedule.id} className="hover:bg-gray-50">
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{schedule.id}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{schedule.classIds}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{schedule.subjectId}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{schedule.teacherIds}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{schedule.periodsPerCard}</td>
+                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{schedule.periodsPerWeek}</td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
+      {/* Pagination */}
       <div className="px-6 py-4 flex items-center justify-between border-t border-gray-200">
         <div className="text-sm text-gray-700">
-          Showing {startIndex + 1} to {endIndex} of {filteredClassrooms.length} entries
+          Showing {startIndex + 1} to {endIndex} of {filteredSchedules.length} entries
         </div>
         <div className="flex items-center space-x-2">
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 1}
-            className={`px-3 py-1 rounded-md text-sm font-medium ${
-              currentPage === 1
+            className={`px-3 py-1 rounded-md text-sm font-medium ${currentPage === 1
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
-            }`}
+              }`}
           >
             <div className="flex items-center">
               <ChevronLeft className="h-4 w-4" />
               <span>Previous</span>
             </div>
           </button>
-          
+
           <div className="flex items-center space-x-1">
             {renderPageNumbers()}
           </div>
@@ -193,11 +190,10 @@ export default function ClassroomTable({ classrooms, searchQuery }: Readonly<Cla
           <button
             onClick={handleNextPage}
             disabled={currentPage === totalPages}
-            className={`px-3 py-1 rounded-md text-sm font-medium ${
-              currentPage === totalPages
+            className={`px-3 py-1 rounded-md text-sm font-medium ${currentPage === totalPages
                 ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
                 : 'bg-white text-gray-700 hover:bg-gray-50 border border-gray-300'
-            }`}
+              }`}
           >
             <div className="flex items-center">
               <span>Next</span>
