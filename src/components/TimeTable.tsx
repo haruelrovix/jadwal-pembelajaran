@@ -1,43 +1,81 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { SearchableDropdown } from './SearchableDropdown';
-import { ViewType, MOCK_TEACHERS, MOCK_CLASSES, MOCK_SCHEDULES } from '../types';
+import { ViewType, Teacher, ClassRoom, Schedule, Course, Period, Card } from '../types';
 import { BookOpen } from 'lucide-react';
 
-const PERIODS = Array.from({ length: 8 }, (_, i) => `Jam ke-${i}`);
-const DAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'];
+const CARD_DAYS = {
+  '10000': 'Mon',
+  '01000': 'Tue',
+  '00100': 'Wed',
+  '00010': 'Thu',
+  '00001': 'Fri',
+};
+const DAYS = Object.keys(CARD_DAYS);
 
-export function TimeTable() {
-  const [viewType, setViewType] = useState<ViewType>('teacher');
+interface TimeTableProps {
+  teachers: Teacher[];
+  classrooms: ClassRoom[];
+  schedules: Schedule[];
+  subjects: Course[];
+  periods: Period[];
+  cards: Card[];
+}
+
+export function TimeTable({ teachers, classrooms, schedules, subjects, periods, cards }: Readonly<TimeTableProps>) {
+  const [viewType, setViewType] = useState<ViewType>(ViewType.None);
   const [selectedId, setSelectedId] = useState('');
 
-  const filteredSchedules = useMemo(() => {
-    if (!selectedId) return [];
-    return MOCK_SCHEDULES.filter(schedule =>
-      viewType === 'teacher'
-        ? schedule.teacherIds === selectedId
-        : schedule.classIds === selectedId
-    );
-  }, [selectedId, viewType]);
+  const getScheduleForCell = (card: Card | undefined) => {
+    if (!card) {
+      return null;
+    }
 
-  const getScheduleForCell = (period: string, day: string) => {
-    // In a real app, you would use actual day/period mapping logic
-    // This is a simplified example
-    const periodIndex = parseInt(period.split('-')[1]);
-    const dayIndex = DAYS.indexOf(day);
+    if (viewType === ViewType.Teacher && selectedId) {
+      const filtered = schedules.filter(s => s.teacherIds === selectedId);
+      return filtered.find(s => s.id === card.lessonId);
+    }
 
-    return filteredSchedules.find((_, index) =>
-      index % PERIODS.length === periodIndex &&
-      Math.floor(index / PERIODS.length) === dayIndex
-    );
+    return schedules.find(s => s.id === card.lessonId);
   };
 
-  const getTeacherOrClassName = (schedule: typeof MOCK_SCHEDULES[0]) => {
-    if (viewType === 'teacher') {
-      const classInfo = MOCK_CLASSES.find(c => c.id === schedule.classIds);
-      return classInfo?.name || 'Unknown Class';
-    } else {
-      const teacherInfo = MOCK_TEACHERS.find(t => t.id === schedule.teacherIds);
-      return teacherInfo?.name || 'Unknown Teacher';
+  const getCard = (day: string, period: Period) => {
+    if (viewType === ViewType.Class && selectedId) {
+      const filtered = cards.filter(c => c.classroomIds === selectedId);
+      return filtered.find(c => c.days === day && c.period === period.name);
+    }
+
+    return cards.find(c => c.days === day && c.period === period.name);
+  };
+
+  const getTeacherName = (schedule: Schedule | null | undefined) => {
+    if (!schedule) {
+      return '';
+    }
+
+    const teacherIds = schedule.teacherIds.split(',');
+    const teacherInfo = teachers.find(t => teacherIds.includes(t.id));
+
+    return teacherInfo?.name || 'Unknown Teacher';
+  };
+
+  const getCourseSubject = (id: string) => {
+    const subject = subjects.find(s => s.id === id);
+    return subject?.name || 'Unknown Subject';
+  }
+
+  const getClassRoomName = (id: string) => {
+    const classInfo = classrooms.find(c => c.id === id);
+    return classInfo?.name || 'Unknown Class';
+  };
+
+  const getPlaceholder = (viewType: ViewType) => {
+    switch (viewType) {
+      case ViewType.Teacher:
+        return 'Select a teacher...';
+      case ViewType.Class:
+        return 'Select a class...';
+      default:
+        return '';
     }
   };
 
@@ -49,9 +87,21 @@ export function TimeTable() {
             <input
               type="radio"
               className="form-radio text-blue-600"
-              checked={viewType === 'teacher'}
+              checked={viewType === ViewType.None}
               onChange={() => {
-                setViewType('teacher');
+                setViewType(ViewType.None);
+                setSelectedId('');
+              }}
+            />
+            <span className="ml-2">None</span>
+          </label>
+          <label className="inline-flex items-center">
+            <input
+              type="radio"
+              className="form-radio text-blue-600"
+              checked={viewType === ViewType.Teacher}
+              onChange={() => {
+                setViewType(ViewType.Teacher);
                 setSelectedId('');
               }}
             />
@@ -61,9 +111,9 @@ export function TimeTable() {
             <input
               type="radio"
               className="form-radio text-blue-600"
-              checked={viewType === 'class'}
+              checked={viewType === ViewType.Class}
               onChange={() => {
-                setViewType('class');
+                setViewType(ViewType.Class);
                 setSelectedId('');
               }}
             />
@@ -71,58 +121,66 @@ export function TimeTable() {
           </label>
           <div className="w-64">
             <SearchableDropdown
-              options={viewType === 'teacher' ? MOCK_TEACHERS : MOCK_CLASSES}
+              options={viewType === ViewType.Teacher ? teachers : classrooms}
               value={selectedId}
               onChange={setSelectedId}
-              placeholder={`Select ${viewType === 'teacher' ? 'a teacher' : 'a class'}...`}
+              placeholder={getPlaceholder(viewType)}
+              disabled={viewType === ViewType.None}
             />
           </div>
         </div>
       </div>
 
-      {selectedId && (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200 shadow-sm rounded-lg">
-            <thead>
-              <tr className="bg-gray-50">
-                <th className="border p-3 text-left">Time</th>
-                {DAYS.map(day => (
-                  <th key={day} className="border p-3 text-left">{day}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {PERIODS.map((period) => (
-                <tr key={period}>
-                  <td className="border p-3 font-medium bg-gray-50">{period}</td>
-                  {DAYS.map(day => {
-                    const schedule = getScheduleForCell(period, day);
-                    return (
-                      <td key={`${period}-${day}`} className="border p-3">
-                        {schedule ? (
-                          <div className="min-h-[60px] p-2 bg-blue-50 rounded-md border border-blue-100">
-                            <div className="flex items-center gap-2 text-blue-700">
-                              <BookOpen className="w-4 h-4" />
-                              <span className="font-medium">
-                                {getTeacherOrClassName(schedule)}
-                              </span>
-                            </div>
-                            <div className="text-sm text-gray-600 mt-1">
-                              Room: {schedule.classRoomIds}
-                            </div>
-                          </div>
-                        ) : (
-                          <div className="min-h-[60px]" />
-                        )}
-                      </td>
-                    );
-                  })}
-                </tr>
+      <div className="overflow-x-auto">
+        <table className="min-w-full bg-white border border-gray-200 shadow-sm rounded-lg">
+          <thead>
+            <tr className="bg-gray-50">
+              <th className="border p-3 text-left w-20">Time</th>
+              {DAYS.map(day => (
+                <th key={day} className="border p-3 text-left">{CARD_DAYS[day as keyof typeof CARD_DAYS]}</th>
               ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+            </tr>
+          </thead>
+          <tbody>
+            {periods.map((period) => (
+              <tr key={period.name}>
+                <td className="border p-3 font-medium bg-gray-50">{period.startTime} - {period.endTime}</td>
+                {DAYS.map(day => {
+                  if (!cards) {
+                    return null;
+                  }
+
+                  const card = getCard(day, period);
+                  const schedule = getScheduleForCell(card);
+
+                  return (
+                    <td key={`${period}-${day}`} className="border p-3">
+                      {schedule ? (
+                        <div className="min-h-[60px] p-2 bg-blue-50 rounded-md border border-blue-100">
+                          <div className="flex items-center gap-2 text-blue-700">
+                            <BookOpen className="w-4 h-4" />
+                            <span className="font-medium">
+                              {getCourseSubject(schedule.subjectId)}
+                            </span>
+                          </div>
+                          <div className="text-xs text-gray-600 mt-1">
+                            {getTeacherName(schedule)}
+                          </div>
+                          <div className="text-xs text-gray-600 mt-1">
+                            {getClassRoomName(schedule.classRoomIds)}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="min-h-[60px]" />
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }

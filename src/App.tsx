@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Users, Search, BookOpen, School, FileSpreadsheet, Calendar, Clock, ClipboardList } from 'lucide-react';
-import { Teacher, Course, ClassRoom, ApiResponse, Schedule } from './types';
+import { Users, Search, BookOpen, School, FileSpreadsheet, Clock, ClipboardList } from 'lucide-react';
+import { Teacher, Course, ClassRoom, ApiResponse, Schedule, Period, Card } from './types';
 import TeacherTable from './components/TeacherTable';
 import CourseTable from './components/CourseTable';
 import ClassroomTable from './components/ClassroomTable';
@@ -14,6 +14,8 @@ function App() {
   const [courses, setCourses] = useState<Course[]>([]);
   const [classrooms, setClassrooms] = useState<ClassRoom[]>([]);
   const [schedules, setSchedules] = useState<Schedule[]>([]);
+  const [periods, setPeriods] = useState<Period[]>([]);
+  const [cards, setCards] = useState<Card[]>([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,10 +29,12 @@ function App() {
           throw new Error('Failed to fetch data');
         }
         const data: ApiResponse = await response.json();
-        setTeachers(data.teachers);
+        setTeachers((data.teachers || []).sort((a, b) => a.name.localeCompare(b.name)));
         setCourses((data.subjects || []).sort((a, b) => a.short.localeCompare(b.short)));
+        setPeriods((data.periods || []).sort((a, b) => Number(a) - Number(b)));
         setClassrooms(data.classRooms || []);
         setSchedules(data.schedules || []);
+        setCards(data.cards || []);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
       } finally {
@@ -141,7 +145,7 @@ function App() {
         </div>
 
         {/* Content */}
-        {getActiveTabContent(activeTab, teachers, courses, classrooms, schedules, searchQuery)}
+        {getActiveTabContent(activeTab, teachers, courses, classrooms, schedules, periods, cards, searchQuery)}
       </div>
     </div>
   );
@@ -153,6 +157,8 @@ function getActiveTabContent(
   courses: Course[],
   classrooms: ClassRoom[],
   schedules: Schedule[],
+  periods: Period[],
+  cards: Card[],
   searchQuery: string
 ) {
   switch (activeTab) {
@@ -165,7 +171,7 @@ function getActiveTabContent(
     case 'schedules':
       return <ScheduleTable schedules={schedules} searchQuery={searchQuery} />;
     case 'timetable':
-      return <TimeTable />;
+      return <TimeTable teachers={teachers} classrooms={classrooms} schedules={schedules} subjects={courses} periods={periods} cards={cards} />;
     default:
       return null;
   }

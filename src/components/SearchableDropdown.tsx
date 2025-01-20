@@ -11,9 +11,10 @@ interface SearchableDropdownProps {
   value: string;
   onChange: (value: string) => void;
   placeholder: string;
+  disabled: boolean;
 }
 
-export function SearchableDropdown({ options, value, onChange, placeholder }: SearchableDropdownProps) {
+export function SearchableDropdown({ options, value, onChange, placeholder, disabled }: SearchableDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [filteredOptions, setFilteredOptions] = useState(options);
@@ -31,7 +32,7 @@ export function SearchableDropdown({ options, value, onChange, placeholder }: Se
     <div className="relative">
       <div
         className="w-full p-2 border rounded-md flex items-center justify-between bg-white cursor-pointer"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => !disabled && setIsOpen(!isOpen)}
       >
         <span className="flex-1">
           {selectedOption ? selectedOption.name : placeholder}
@@ -39,7 +40,7 @@ export function SearchableDropdown({ options, value, onChange, placeholder }: Se
         <Search className="w-4 h-4 text-gray-400" />
       </div>
 
-      {isOpen && (
+      {!disabled && isOpen && (
         <div className="absolute w-full mt-1 bg-white border rounded-md shadow-lg z-10">
           <input
             type="text"
