@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { Users, Search, BookOpen, School, FileSpreadsheet, Calendar } from 'lucide-react';
+import { Users, Search, BookOpen, School, FileSpreadsheet, Calendar, Clock, ClipboardList } from 'lucide-react';
 import { Teacher, Course, ClassRoom, ApiResponse, Schedule } from './types';
 import TeacherTable from './components/TeacherTable';
 import CourseTable from './components/CourseTable';
 import ClassroomTable from './components/ClassroomTable';
 import ScheduleTable from './components/ScheduleTable';
+import { TimeTable } from './components/TimeTable';
 
-type Tab = 'teachers' | 'courses' | 'classrooms' | 'schedules';
+type Tab = 'teachers' | 'courses' | 'classrooms' | 'schedules' | 'timetable';
 
 function App() {
   const [teachers, setTeachers] = useState<Teacher[]>([]);
@@ -122,8 +123,18 @@ function App() {
                   : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                   } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center`}
               >
-                <Calendar className="h-5 w-5 mr-2" />
+                <ClipboardList className="h-5 w-5 mr-2" />
                 Schedules
+              </button>
+              <button
+                onClick={() => setActiveTab('timetable')}
+                className={`${activeTab === 'timetable'
+                  ? 'border-blue-500 text-blue-600'
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                  } whitespace-nowrap pb-4 px-1 border-b-2 font-medium text-sm flex items-center`}
+              >
+                <Clock className="h-5 w-5 mr-2" />
+                Timetable
               </button>
             </nav>
           </div>
@@ -153,6 +164,8 @@ function getActiveTabContent(
       return <ClassroomTable classrooms={classrooms} searchQuery={searchQuery} />;
     case 'schedules':
       return <ScheduleTable schedules={schedules} searchQuery={searchQuery} />;
+    case 'timetable':
+      return <TimeTable />;
     default:
       return null;
   }
