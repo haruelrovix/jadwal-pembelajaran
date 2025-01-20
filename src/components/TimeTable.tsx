@@ -25,7 +25,7 @@ export function TimeTable({ teachers, classrooms, schedules, subjects, periods, 
   const [viewType, setViewType] = useState<ViewType>(ViewType.None);
   const [selectedId, setSelectedId] = useState('');
 
-  const getScheduleForCell = (card: Card | undefined) => {
+  const getScheduleForCell = (card: Card | undefined): Schedule | null | undefined => {
     if (!card) {
       return null;
     }
@@ -38,7 +38,7 @@ export function TimeTable({ teachers, classrooms, schedules, subjects, periods, 
     return schedules.find(s => s.id === card.lessonId);
   };
 
-  const getCard = (day: string, period: Period) => {
+  const getCard = (day: string, period: Period): Card | undefined => {
     if (viewType === ViewType.Class && selectedId) {
       const filtered = cards.filter(c => c.classroomIds === selectedId);
       return filtered.find(c => c.days === day && c.period === period.name);
@@ -47,7 +47,7 @@ export function TimeTable({ teachers, classrooms, schedules, subjects, periods, 
     return cards.find(c => c.days === day && c.period === period.name);
   };
 
-  const getTeacherName = (schedule: Schedule | null | undefined) => {
+  const getTeacherName = (schedule: Schedule | null | undefined): string => {
     if (!schedule) {
       return '';
     }
@@ -55,20 +55,34 @@ export function TimeTable({ teachers, classrooms, schedules, subjects, periods, 
     const teacherIds = schedule.teacherIds.split(',');
     const teacherInfo = teachers.find(t => teacherIds.includes(t.id));
 
-    return teacherInfo?.name || 'Unknown Teacher';
+    return teacherInfo?.name ?? 'Unknown Teacher';
   };
 
-  const getCourseSubject = (id: string) => {
+  const getCourseSubject = (id: string): string => {
     const subject = subjects.find(s => s.id === id);
-    return subject?.name || 'Unknown Subject';
+    return subject?.name ?? 'Unknown Subject';
   }
 
-  const getClassRoomName = (id: string) => {
+  const getClassRoomName = (id: string): string => {
     const classInfo = classrooms.find(c => c.id === id);
-    return classInfo?.name || 'Unknown Class';
+    return classInfo?.name ?? 'Unknown Class';
+  };
+  
+  const getTeacherColor = (teacherId: string): string => {
+    const teacher = teachers.find(t => t.id === teacherId);
+    const color = teacher?.color ?? '';
+    
+    // If color is empty, return transparent
+    if (!color) return 'transparent';
+    
+    // If color doesn't start with #, return as is
+    if (!color.startsWith('#')) return color;
+    
+    // Add 20% opacity (alpha) to the hex color
+    return `${color}33`;
   };
 
-  const getPlaceholder = (viewType: ViewType) => {
+  const getPlaceholder = (viewType: ViewType): string => {
     switch (viewType) {
       case ViewType.Teacher:
         return 'Select a teacher...';
@@ -153,10 +167,12 @@ export function TimeTable({ teachers, classrooms, schedules, subjects, periods, 
                   const card = getCard(day, period);
                   const schedule = getScheduleForCell(card);
 
+                  const style = { backgroundColor: getTeacherColor(schedule?.teacherIds ?? '') };
+
                   return (
-                    <td key={`${period}-${day}`} className="border p-3">
+                    <td key={`${period.name}-${day}`} className="border p-3">
                       {schedule ? (
-                        <div className="min-h-[60px] p-2 bg-blue-50 rounded-md border border-blue-100">
+                        <div className="min-h-[60px] p-2 bg-blue-50 rounded-md border border-blue-100" style={style}>
                           <div className="flex items-center gap-2 text-blue-700">
                             <BookOpen className="w-4 h-4" />
                             <span className="font-medium">
